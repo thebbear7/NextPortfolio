@@ -1,0 +1,27 @@
+---
+title: "Why I use Zabbix for infrastructure monitoring"
+date: "2026-01-15"
+description: "A practical look at Zabbix and why it's underrated in the modern observability conversation."
+---
+
+Zabbix doesn't get much attention in the modern DevOps conversation — most of the energy goes toward Prometheus, Datadog, or cloud-native offerings. After running it in production at AlMuqeet Systems, I have a few thoughts on why it still earns its place.
+
+## What Zabbix does well
+
+**Agent-based monitoring with minimal configuration.** The Zabbix agent handles most common checks (CPU, memory, disk, network) out of the box. You don't need to write exporters or instrument your application to get basic host visibility.
+
+**Templates.** Zabbix ships with templates for hundreds of services — databases, web servers, networking gear. You apply a template and the checks, thresholds, and graphs are configured for you. Getting from "installed" to "monitored" is fast.
+
+**Alerting is built in.** Prometheus pushes alert routing to Alertmanager, which is a separate process to configure and maintain. Zabbix's action/trigger system handles it internally. For smaller teams, fewer moving parts is a win.
+
+## Where it struggles
+
+Zabbix's query language is nothing like PromQL. If you want to write custom aggregations or correlate metrics across services, it becomes cumbersome. Grafana datasource support exists but is limited.
+
+The UI is also dated — functional, not beautiful. Teams used to Grafana dashboards will find it jarring.
+
+## My take
+
+For infrastructure monitoring on a budget (Zabbix is open source and runs fine on modest hardware), it's a solid choice. For application-level observability where you need flexible querying and custom instrumentation, Prometheus/Grafana is the better fit.
+
+I use Zabbix for the "is this host alive and healthy" layer, and I'd reach for Prometheus when I need to understand what the application itself is doing.
