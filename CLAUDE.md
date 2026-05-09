@@ -24,7 +24,7 @@ A **personal portfolio website** for me. Aesthetic priorities:
 
 - **Super aesthetic and minimalist** — clean, modern, lots of whitespace
 - **Non-scrollable landing page** — single viewport, no vertical scroll on the home page
-- **Background animation:** half-visible planetary orbit at the bottom of the screen (about 50% of the orbit visible, the rest off-screen below). A small dot/planet traces the orbit. Subtle, slow, looping.
+- **Background animation:** 4 large drifting gold radial-gradient blobs (top-right, bottom-left, centre, mid-right) + small floating gold dots + a slow horizontal light sweep. All subtle, looping with Framer Motion.
 - Dark mode aesthetic preferred (dark bg, light text, one subtle accent color)
 
 ---
@@ -146,16 +146,29 @@ When working on this project:
 
 ## What's already done / what's next
 
-**Status:** project not yet started. First step is scaffolding the Next.js + Tailwind project with the landing page and orbit animation.
+**Status (as of 2026-05-09):** Full single-page portfolio is built and pushed to github.com/thebbear7/NextPortfolio (main branch). The page is scrollable (hero is non-scrollable viewport, rest scrolls below).
+
+**What's built:**
+- Desktop hero: 50/50 split — photo left (bottom-left entrance, saturate 0.45, right-edge mask), intro right (slides from right)
+- Golden brush scribble behind photo (9 strokes, marker-draw animation on load)
+- BackgroundFX: 4 drifting gold blobs + floating dots + horizontal light sweep
+- Social icons (Email, GitHub, LinkedIn) + "Get Resume" capsule (pulsing gold glow border)
+- Name + gold accent line slide in from left; nav buttons stagger in from right
+- "My work" button with bouncing chevron down
+- Mobile hero: full 100svh, photo + scribble + socials + name only; intro below fold; hamburger menu
+- Scrollable sections: Projects (3 cards), Skills (6 groups + certs), Experience (2 jobs), Contact + footer
+- Dockerfile + nginx.conf already exist
+- One sample blog post: `content/blogs/why-i-use-zabbix.mdx`
+
+**Known pending issue:** Photo (`public/mahbeer.png`) has white studio background visible around hair. Fix: run through remove.bg, replace file with transparent-background PNG.
 
 **Roadmap:**
-
-1. ☐ Scaffold Next.js 14 + TypeScript + Tailwind project
-2. ☐ Build landing page (nav + hero + orbit animation)
-3. ☐ Add modal/drawer system for nav links
+1. ✅ Scaffold Next.js 14 + TypeScript + Tailwind project
+2. ✅ Build landing page (nav + hero + all animations)
+3. ☐ Modal/drawer system for nav links (originally planned; nav currently smooth-scrolls to sections — confirm approach next session)
 4. ☐ Wire up MDX-based blog system
-5. ☐ Fill in Experience and Projects content
-6. ☐ Write Dockerfile + nginx config
+5. ✅ Experience and Projects content (in HomeClient.tsx)
+6. ✅ Dockerfile + nginx config
 7. ☐ Buy mahbeer.in domain
 8. ☐ Provision EC2 t2.micro, install Docker + nginx
 9. ☐ Set up Cloudflare DNS pointing to EC2
