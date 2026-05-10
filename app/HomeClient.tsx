@@ -417,7 +417,7 @@ export default function HomeClient() {
 
               {/* Resume — capsule with pulsing golden border glow */}
               <motion.a
-                href="/R7Pro_Mahbeer.pdf"
+                href="/R8_Mahbeer.pdf"
                 download="Mahbeer_Resume.pdf"
                 initial={{ opacity: 0, x: -36 }}
                 animate={{
@@ -668,7 +668,7 @@ export default function HomeClient() {
 
             {/* Get Resume capsule */}
             <motion.a
-              href="/R7Pro_Mahbeer.pdf" download="Mahbeer_Resume.pdf"
+              href="/R8_Mahbeer.pdf" download="Mahbeer_Resume.pdf"
               initial={{ opacity: 0, x: -36 }}
               animate={{
                 opacity: 1, x: 0,
