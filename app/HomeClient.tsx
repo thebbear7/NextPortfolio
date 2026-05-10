@@ -188,19 +188,19 @@ const projects = [
     num: '01',
     title: 'Automated CI/CD Deployment of a 3-Tier Chat Application',
     desc: 'End-to-end pipeline for a full-stack chat app on AWS. Provisioned a VPC, subnets, security groups, and an EKS cluster with Terraform, then containerised the frontend and backend microservices with Docker. A GitHub webhook triggers fully automated Jenkins builds that push updated images straight to the cluster — no manual steps after a merge.',
-    href: 'https://github.com/thebbear7',
+    href: 'https://github.com/thebbear7/full-stack_chatApp',
   },
   {
     num: '02',
     title: 'Kubernetes Notes App with Full Observability Stack',
     desc: 'Deployed a three-tier React Native — Node.js — MongoDB notes application on a Minikube cluster hosted on EC2. Wrote all Dockerfiles and Kubernetes manifests from scratch, then wired in Prometheus for metrics scraping, Grafana for dashboards, and Loki for centralised log aggregation — giving the whole stack real-time visibility in one place.',
-    href: 'https://github.com/thebbear7',
+    href: 'https://github.com/thebbear7/notes_app',
   },
   {
     num: '03',
     title: 'CloudFront-Based Global Image Delivery Optimisation',
     desc: 'Benchmarked AWS CloudFront against direct S3 access across three regions using 50 MB test assets. Measured from Srinagar: raw S3 load times ranged 21–33 seconds, while CloudFront\'s Mumbai edge node delivered the same content in 5 seconds — a 5–6× performance gain through CDN caching alone.',
-    href: 'https://github.com/thebbear7',
+    href: null,
   },
 ]
 
@@ -717,27 +717,34 @@ export default function HomeClient() {
 
       {/* ── MOBILE intro — shown on scroll ───────────────────────────────── */}
       <section className="md:hidden px-6 py-14" style={{ background: BG }}>
-        <p style={{ fontSize: 11, color: M, letterSpacing: '0.2em', marginBottom: 16 }}>— Introduction</p>
-        <h2 style={{ fontSize: '1.45rem', fontWeight: 600, lineHeight: 1.35, marginBottom: 16 }}>
-          DevOps Engineer and infrastructure automation specialist, based in Srinagar, India.
-        </h2>
-        <p style={{ fontSize: 13, color: M, lineHeight: 1.75, marginBottom: 28 }}>
-          Building reliable CI/CD pipelines, scalable infrastructure, and cloud-native systems that help teams ship faster and with confidence.
-        </p>
-        <button onClick={() => scrollTo('projects')}
-          style={{
-            display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-            fontSize: 17, color: A, background: 'none', border: 'none', cursor: 'pointer',
-            fontFamily: 'inherit', fontWeight: 600,
-            filter: `drop-shadow(0 0 8px ${AG}) drop-shadow(0 0 16px rgba(212,160,23,0.3))`,
-          }}
+        <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-40px 0px' }}
+          transition={{ duration: 0.65, ease: [0.21, 0.47, 0.32, 0.98] }}
         >
-          My work
-          <motion.span animate={{ y: [0, 7, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ display: 'flex', lineHeight: 1 }}>
-            <ChevronDown />
-          </motion.span>
-        </button>
+          <p style={{ fontSize: 11, color: M, letterSpacing: '0.2em', marginBottom: 16 }}>— Introduction</p>
+          <h2 style={{ fontSize: '1.45rem', fontWeight: 600, lineHeight: 1.35, marginBottom: 16 }}>
+            DevOps Engineer and infrastructure automation specialist, based in Srinagar, India.
+          </h2>
+          <p style={{ fontSize: 13, color: M, lineHeight: 1.75, marginBottom: 28 }}>
+            Building reliable CI/CD pipelines, scalable infrastructure, and cloud-native systems that help teams ship faster and with confidence.
+          </p>
+          <button onClick={() => scrollTo('projects')}
+            style={{
+              display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+              fontSize: 17, color: A, background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: 'inherit', fontWeight: 600,
+              filter: `drop-shadow(0 0 8px ${AG}) drop-shadow(0 0 16px rgba(212,160,23,0.3))`,
+            }}
+          >
+            My work
+            <motion.span animate={{ y: [0, 7, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ display: 'flex', lineHeight: 1 }}>
+              <ChevronDown />
+            </motion.span>
+          </button>
+        </motion.div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
@@ -760,12 +767,18 @@ export default function HomeClient() {
                     <p style={{ fontSize: 44, fontWeight: 700, color: 'rgba(245,197,24,0.12)', lineHeight: 1, marginBottom: 20 }}>{p.num}</p>
                     <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 14 }}>{p.title}</h3>
                     <p style={{ fontSize: 15, color: M, lineHeight: 1.75, marginBottom: 24 }}>{p.desc}</p>
-                    <a href={p.href} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 mt-auto"
-                      style={{ fontSize: 14, color: A, textDecoration: 'none', fontWeight: 500, letterSpacing: '0.04em' }}
-                    >
-                      View on GitHub <ArrowIcon />
-                    </a>
+                    {p.href ? (
+                      <a href={p.href} target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 mt-auto"
+                        style={{ fontSize: 14, color: A, textDecoration: 'none', fontWeight: 500, letterSpacing: '0.04em' }}
+                      >
+                        View on GitHub <ArrowIcon />
+                      </a>
+                    ) : (
+                      <span className="mt-auto" style={{ fontSize: 13, color: '#4a5060', letterSpacing: '0.04em' }}>
+                        Repo private
+                      </span>
+                    )}
                   </div>
                 </GlowingShadow>
               </Reveal>
@@ -820,7 +833,7 @@ export default function HomeClient() {
           <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: 56 }}>Certifications.</h2>
         </Reveal>
 
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           {certifications.map((cert, i) => (
             <Reveal key={cert.credentialId} delay={i * 0.08}>
               <TiltCard style={{ borderRadius: 14 }} spotlight={false}>
@@ -829,7 +842,7 @@ export default function HomeClient() {
                   borderRadius: 14,
                   border: '1px solid rgba(0,0,0,0.09)',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-                  aspectRatio: '4 / 3',
+                  minHeight: 220,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -837,7 +850,6 @@ export default function HomeClient() {
                   textAlign: 'center',
                   padding: '20px 16px 18px',
                   position: 'relative',
-                  overflow: 'hidden',
                 }}>
                   {/* Top gold bar */}
                   <div style={{
