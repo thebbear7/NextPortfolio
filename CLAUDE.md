@@ -60,25 +60,18 @@ The **Blogs** section is the one that grows over time. New posts should be addab
 ```
 User → mahbeer.in
         ↓
-   Cloudflare (DNS + CDN + SSL + DDoS)
-        ↓
-   EC2 t2.micro (Ubuntu 24.04)
-        ↓ port 80
-   nginx (reverse proxy + static file serving)
-        ↓
-   Docker container
-        └── nginx serving the static Next.js export
+   Cloudflare Workers (edge runtime + SSL + DDoS + global CDN)
+        └── serves the static Next.js export directly from the edge
 ```
 
-- **EC2 instance:** t2.micro (1 GB RAM, free tier)
-- **Reverse proxy:** nginx on the host
-- **Container:** Docker, runs nginx-alpine serving the built static files
-- **DNS / SSL:** Cloudflare (free tier — proxied DNS, automatic SSL via Cloudflare's edge)
-- **CI/CD (eventual):** GitHub Actions — on push to main, build the Docker image, push to a registry (Docker Hub or GHCR), then SSH to EC2 and pull + restart
+- **Hosting:** Cloudflare Workers (via `@cloudflare/next-on-pages` or Cloudflare Pages with Workers backend)
+- **DNS / SSL:** Cloudflare (automatic, proxied)
+- **No EC2, no Docker, no nginx** — the static export runs entirely on Cloudflare's edge network
+- **CI/CD (eventual):** GitHub Actions — on push to main, run `next build`, then deploy to Cloudflare Workers via `wrangler deploy`
 
-### Important constraint
+### Build note
 
-**Do not run `next build` on the EC2 t2.micro.** Next.js builds are memory-hungry and a 1 GB instance will OOM-kill the build. Always build the static export locally (or in CI), then ship the resulting `out/` directory inside a Docker image. The EC2 only runs nginx serving pre-built files.
+`next build` is run locally or in CI (GitHub Actions), **not** on any server. The output is deployed directly to Cloudflare Workers. The `output: 'export'` static export mode in `next.config.js` is compatible with this approach.
 
 ---
 
@@ -138,7 +131,7 @@ When working on this project:
 2. **Explain what each file does** when creating it for the first time, in 1–2 lines.
 3. **Don't introduce dependencies casually.** If you want to add a new npm package, tell me what it does and why before installing.
 4. **Commit messages:** use conventional commits (`feat:`, `fix:`, `chore:`, `docs:`).
-5. **Don't run `next build` for production deploys** — see EC2 constraint above.
+5. **Build runs locally or in CI** — `next build` outputs a static export deployed to Cloudflare Workers via `wrangler`. Never run the build on any remote server.
 6. **Browser storage (localStorage/sessionStorage)** is fine here since this is deployed on real infra, not Claude artifacts.
 7. **When adding a blog post,** the workflow is: create `content/blogs/<slug>.mdx`, push to git, redeploy. No other code changes should be needed.
 
@@ -146,34 +139,29 @@ When working on this project:
 
 ## What's already done / what's next
 
-**Status (as of 2026-05-09):** Full single-page portfolio is built and pushed to github.com/thebbear7/NextPortfolio (main branch). The page is scrollable (hero is non-scrollable viewport, rest scrolls below).
+**Status (as of 2026-05-10):** Full portfolio built and pushed to github.com/thebbear7/NextPortfolio (main branch).
 
 **What's built:**
-- Desktop hero: 50/50 split — photo left (bottom-left entrance, saturate 0.45, right-edge mask), intro right (slides from right)
-- Golden brush scribble behind photo (9 strokes, marker-draw animation on load)
-- BackgroundFX: 4 drifting gold blobs + floating dots + horizontal light sweep
-- Social icons (Email, GitHub, LinkedIn) + "Get Resume" capsule (pulsing gold glow border)
-- Name + gold accent line slide in from left; nav buttons stagger in from right
-- "My work" button with bouncing chevron down
-- Mobile hero: full 100svh, photo + scribble + socials + name only; intro below fold; hamburger menu
-- Scrollable sections: Projects (3 cards), Skills (6 groups + certs), Experience (2 jobs), Contact + footer
-- Dockerfile + nginx.conf already exist
-- One sample blog post: `content/blogs/why-i-use-zabbix.mdx`
+- Desktop hero: 50/50 split — photo left, intro right (all entrance animations)
+- Golden brush scribble behind photo, BackgroundFX gold blobs + light sweep
+- Social icons, "Get Resume" capsule with pulsing gold glow border
+- Mobile hero: 100svh with hamburger menu; intro slides in from right on scroll
+- Scrollable sections: Projects (3 cards + grid bg + glowing border), Skills (logo marquee + glowing border cards), Certifications (tilt cards, real AWS/Google logos), Experience (glowing border cards), Contact + footer
+- Blogs nav item with gold glow → `/blogs` coming-soon page
+- Dockerfile + nginx.conf exist (not used for deploy anymore — see new arch above)
 
 **Known pending issue:** Photo (`public/mahbeer.png`) has white studio background visible around hair. Fix: run through remove.bg, replace file with transparent-background PNG.
 
 **Roadmap:**
 1. ✅ Scaffold Next.js 14 + TypeScript + Tailwind project
 2. ✅ Build landing page (nav + hero + all animations)
-3. ☐ Modal/drawer system for nav links (originally planned; nav currently smooth-scrolls to sections — confirm approach next session)
+3. ✅ Nav scrolls to sections (modals approach dropped)
 4. ☐ Wire up MDX-based blog system
-5. ✅ Experience and Projects content (in HomeClient.tsx)
-6. ✅ Dockerfile + nginx config
-7. ☐ Buy mahbeer.in domain
-8. ☐ Provision EC2 t2.micro, install Docker + nginx
-9. ☐ Set up Cloudflare DNS pointing to EC2
-10. ☐ First manual deploy
-11. ☐ GitHub Actions CI/CD pipeline
+5. ✅ All content sections complete
+6. ☐ Buy mahbeer.in domain
+7. ☐ Deploy to Cloudflare Workers (via `@cloudflare/next-on-pages` + `wrangler`)
+8. ☐ Point mahbeer.in DNS to Cloudflare Workers
+9. ☐ GitHub Actions CI/CD (build + `wrangler deploy` on push to main)
 
 ---
 
