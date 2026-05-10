@@ -2,7 +2,21 @@
 
 import { useState, useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { InfiniteGridBackground } from '@/components/ui/the-infinite-grid'
+import { GlowingShadow } from '@/components/ui/glowing-shadow'
+import { PerspectiveMarquee } from '@/components/ui/perspective-marquee'
+import { TiltCard } from '@/components/ui/tilt-card'
+
+// ── Certificate provider logos ─────────────────────────────────────────────────
+function AwsLogo() {
+  return <Image src="/logo-aws.png" alt="AWS" width={100} height={62} style={{ objectFit: 'contain' }} />
+}
+
+function GoogleLogo() {
+  return <Image src="/logo-google.png" alt="Google" width={62} height={62} style={{ objectFit: 'contain' }} />
+}
 
 // ── Brand tokens ───────────────────────────────────────────────────────────────
 const A   = '#d4a017'                  // glowing gold
@@ -172,41 +186,84 @@ function BackgroundFX() {
 const projects = [
   {
     num: '01',
-    title: 'EKS CI/CD Pipeline',
-    stack: ['Jenkins', 'Docker', 'AWS EKS', 'GitHub Actions'],
-    desc: 'Automated end-to-end deployment pipeline on Amazon EKS. Containerised microservices with Docker, orchestrated via Kubernetes, with rolling updates and rollback support on every push.',
+    title: 'Automated CI/CD Deployment of a 3-Tier Chat Application',
+    desc: 'End-to-end pipeline for a full-stack chat app on AWS. Provisioned a VPC, subnets, security groups, and an EKS cluster with Terraform, then containerised the frontend and backend microservices with Docker. A GitHub webhook triggers fully automated Jenkins builds that push updated images straight to the cluster — no manual steps after a merge.',
     href: 'https://github.com/thebbear7',
   },
   {
     num: '02',
-    title: 'Kubernetes Observability Stack',
-    stack: ['Prometheus', 'Grafana', 'Loki', 'Kubernetes'],
-    desc: 'Full-stack monitoring and log aggregation for a production Kubernetes cluster. Unified metrics, structured logs, and alert rules with custom Grafana dashboards.',
+    title: 'Kubernetes Notes App with Full Observability Stack',
+    desc: 'Deployed a three-tier React Native — Node.js — MongoDB notes application on a Minikube cluster hosted on EC2. Wrote all Dockerfiles and Kubernetes manifests from scratch, then wired in Prometheus for metrics scraping, Grafana for dashboards, and Loki for centralised log aggregation — giving the whole stack real-time visibility in one place.',
     href: 'https://github.com/thebbear7',
   },
   {
     num: '03',
-    title: 'CloudFront Performance Benchmark',
-    stack: ['AWS CloudFront', 'S3', 'Terraform', 'Python'],
-    desc: 'Benchmarked and optimised AWS CloudFront CDN configuration, cutting latency by ~40% through cache policy tuning, origin failover setup, and IaC automation.',
+    title: 'CloudFront-Based Global Image Delivery Optimisation',
+    desc: 'Benchmarked AWS CloudFront against direct S3 access across three regions using 50 MB test assets. Measured from Srinagar: raw S3 load times ranged 21–33 seconds, while CloudFront\'s Mumbai edge node delivered the same content in 5 seconds — a 5–6× performance gain through CDN caching alone.',
     href: 'https://github.com/thebbear7',
   },
 ]
 
 const skillGroups = [
-  { label: 'CI/CD & Automation',         skills: ['Jenkins', 'GitHub Actions', 'Ansible'] },
-  { label: 'Infrastructure as Code',     skills: ['Terraform', 'CloudFormation'] },
-  { label: 'Containers & Orchestration', skills: ['Docker', 'Kubernetes', 'AWS EKS'] },
-  { label: 'Monitoring & Observability', skills: ['Prometheus', 'Grafana', 'Loki', 'Zabbix'] },
-  { label: 'Cloud',                      skills: ['AWS EC2', 'S3', 'CloudFront', 'Route 53'] },
-  { label: 'Scripting & Tooling',        skills: ['Bash', 'Python', 'YAML', 'Linux'] },
+  {
+    label: 'Cloud & Infrastructure',
+    skills: ['AWS EC2', 'EKS', 'S3', 'VPC', 'IAM', 'CloudFront', 'Load Balancing', 'Auto Scaling', 'High Availability', 'Fault Tolerant Systems'],
+  },
+  {
+    label: 'CI/CD & Automation',
+    skills: ['Jenkins', 'ArgoCD', 'GitHub Actions', 'Git', 'Webhook Triggers', 'Rollback Strategies', 'Groovy'],
+  },
+  {
+    label: 'Containers & Orchestration',
+    skills: ['Docker', 'Kubernetes', 'Helm', 'Minikube', 'Docker Hub', 'Docker Compose', 'Container Networking', 'HPA', 'VPA'],
+  },
+  {
+    label: 'IaC & Config Management',
+    skills: ['Terraform', 'Ansible', 'HCL', 'YAML', 'State Management', 'Drift Detection', 'CloudFormation'],
+  },
+  {
+    label: 'Monitoring & Observability',
+    skills: ['Prometheus', 'Grafana', 'Loki', 'Zabbix', 'Alerting Systems', 'Incident Response'],
+  },
+  {
+    label: 'Languages & OS',
+    skills: ['Python', 'Bash', 'SQL', 'Linux', 'Networking', 'Version Control'],
+  },
 ]
 
 const certifications = [
-  'AWS Certified Cloud Practitioner',
-  'Google ML Foundations (Coursera)',
-  'Google Advanced ML (Coursera)',
-  'Google ML in the Enterprise (Coursera)',
+  {
+    LogoEl: <AwsLogo />,
+    title: 'AWS Certified Cloud Practitioner',
+    issuer: 'Amazon Web Services (AWS)',
+    issued: 'Feb 2025',
+    expires: 'Feb 2028',
+    credentialId: 'fe25233996094045bbaafda2cc5fc030',
+  },
+  {
+    LogoEl: <GoogleLogo />,
+    title: 'Transformer Models and BERT Model',
+    issuer: 'Google',
+    issued: 'May 2025',
+    expires: null,
+    credentialId: '15500213',
+  },
+  {
+    LogoEl: <GoogleLogo />,
+    title: 'Attention Mechanism',
+    issuer: 'Google',
+    issued: 'May 2025',
+    expires: null,
+    credentialId: '15498136',
+  },
+  {
+    LogoEl: <GoogleLogo />,
+    title: 'Introduction to Large Language Models',
+    issuer: 'Google',
+    issued: 'May 2025',
+    expires: null,
+    credentialId: '15497046',
+  },
 ]
 
 const experience = [
@@ -216,29 +273,31 @@ const experience = [
     period: 'Dec 2025 – Present',
     location: 'Srinagar, India',
     points: [
-      'Built and maintained CI/CD pipelines for internal software products, cutting manual deployment effort significantly.',
-      'Set up Zabbix-based monitoring and alerting for production infrastructure, enabling proactive incident response.',
-      'Automated routine operational tasks with Bash scripts and Ansible playbooks.',
+      'Designed and managed CI/CD pipelines across multiple production projects, streamlining build, test, and deployment workflows end-to-end.',
+      'Deployed comprehensive monitoring and observability infrastructure using Zabbix, enabling proactive alerting and dramatically reducing MTTR.',
+      'Collaborated with development teams to ensure reliable, automated software delivery with minimal downtime.',
     ],
   },
   {
     company: 'iQuasar LLC',
-    role: 'DevOps Engineer Intern',
+    role: 'DevOps Intern',
     period: 'Aug 2025 – Dec 2025',
     location: 'Remote',
     points: [
-      'Deployed containerised services on Kubernetes clusters via Jenkins-based CI/CD pipelines.',
-      'Provisioned cloud infrastructure with Terraform and managed configuration drift using Ansible.',
-      'Instrumented services with Prometheus metrics; aggregated logs in Loki and visualised in Grafana.',
+      'Built and maintained CI/CD pipelines with Jenkins and GitHub, reducing manual deployment effort and improving deployment speed by ~30% in test environments.',
+      'Containerized applications using Docker and deployed them on Kubernetes clusters for scalable, resilient delivery.',
+      'Provisioned cloud infrastructure with Terraform and Ansible, maintaining reproducible, version-controlled environments.',
+      'Implemented monitoring and logging with Prometheus, Grafana, and Loki for end-to-end system observability.',
     ],
   },
 ]
 
 const navItems = [
-  { label: 'Projects',   id: 'projects' },
-  { label: 'Skills',     id: 'skills' },
-  { label: 'Experience', id: 'experience' },
-  { label: 'Contact',    id: 'contact' },
+  { label: 'Projects',   id: 'projects',   href: null },
+  { label: 'Skills',     id: 'skills',     href: null },
+  { label: 'Experience', id: 'experience', href: null },
+  { label: 'Blogs',      id: 'blogs',      href: '/blogs' },
+  { label: 'Contact',    id: 'contact',    href: null },
 ]
 
 // ── Main component ─────────────────────────────────────────────────────────────
@@ -419,31 +478,45 @@ export default function HomeClient() {
 
           {/* Nav — top-right, stagger right→left one by one */}
           <nav className="flex justify-end items-start gap-8 px-14 pt-9" style={{ position: 'relative', zIndex: 2 }}>
-            {navItems.map(({ label, id }, i) => (
-              <motion.button
-                key={id}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + i * 0.1, duration: 0.45, ease: [0.21, 0.47, 0.32, 0.98] }}
-                onClick={() => scrollTo(id)}
-                style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-                  fontSize: i === 0 ? 20 : 17,
-                  letterSpacing: '0.04em',
-                  color: i === 0 ? T : M,
-                  fontWeight: i === 0 ? 600 : 400,
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  transition: 'color 0.2s',
+            {navItems.map(({ label, id, href }, i) => {
+              const sharedStyle = {
+                display: 'flex', flexDirection: 'column' as const, alignItems: 'center', gap: 6,
+                fontSize: i === 0 ? 20 : 17,
+                letterSpacing: '0.04em',
+                color: i === 0 ? T : M,
+                fontWeight: i === 0 ? 600 : 400,
+                cursor: 'pointer',
+                transition: 'color 0.2s',
+                textDecoration: 'none',
+              }
+              const motionProps = {
+                key: id,
+                initial: { opacity: 0, x: 40 },
+                animate: { opacity: 1, x: 0 },
+                transition: { delay: 0.1 + i * 0.1, duration: 0.45, ease: [0.21, 0.47, 0.32, 0.98] as any },
+                onMouseEnter: (e: any) => (e.currentTarget.style.color = T),
+                onMouseLeave: (e: any) => (e.currentTarget.style.color = i === 0 ? T : M),
+              }
+              return href ? (
+                <motion.a {...motionProps} href={href} style={{
+                  ...sharedStyle,
+                  color: A,
+                  textShadow: `0 0 18px ${AG}, 0 0 40px rgba(212,160,23,0.3)`,
                 }}
-                onMouseEnter={e => (e.currentTarget.style.color = T)}
-                onMouseLeave={e => (e.currentTarget.style.color = i === 0 ? T : M)}
-              >
-                {label}
-                {i === 0 && (
-                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: A, boxShadow: `0 0 8px ${AG}` }} />
-                )}
-              </motion.button>
-            ))}
+                  onMouseEnter={e => { e.currentTarget.style.color = T; e.currentTarget.style.textShadow = `0 0 28px ${AG}, 0 0 60px rgba(212,160,23,0.45)` }}
+                  onMouseLeave={e => { e.currentTarget.style.color = A; e.currentTarget.style.textShadow = `0 0 18px ${AG}, 0 0 40px rgba(212,160,23,0.3)` }}
+                >
+                  {label}
+                </motion.a>
+              ) : (
+                <motion.button {...motionProps} onClick={() => scrollTo(id)} style={{ ...sharedStyle, background: 'none', border: 'none' }}>
+                  {label}
+                  {i === 0 && (
+                    <div style={{ width: 4, height: 4, borderRadius: '50%', background: A, boxShadow: `0 0 8px ${AG}` }} />
+                  )}
+                </motion.button>
+              )
+            })}
           </nav>
 
           {/* Intro — vertically centered in remaining space */}
@@ -552,11 +625,18 @@ export default function HomeClient() {
               className="flex flex-col gap-5 px-6 py-5"
               style={{ position: 'absolute', top: 68, left: 0, right: 0, zIndex: 6, background: 'rgba(8,8,8,0.96)', borderBottom: `1px solid ${BD}` }}
             >
-              {navItems.map(({ label, id }) => (
-                <button key={id} onClick={() => scrollTo(id)}
-                  style={{ fontSize: 15, color: M, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
-                  {label}
-                </button>
+              {navItems.map(({ label, id, href }) => (
+                href ? (
+                  <a key={id} href={href}
+                    style={{ fontSize: 15, color: M, textDecoration: 'none', cursor: 'pointer', textAlign: 'left' as const }}>
+                    {label}
+                  </a>
+                ) : (
+                  <button key={id} onClick={() => scrollTo(id)}
+                    style={{ fontSize: 15, color: M, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' as const }}>
+                    {label}
+                  </button>
+                )
               ))}
             </motion.div>
           )}
@@ -663,93 +743,140 @@ export default function HomeClient() {
       {/* ═══════════════════════════════════════════════════════════════════
           PROJECTS
       ═══════════════════════════════════════════════════════════════════ */}
-      <section id="projects" className="px-6 md:px-16 py-24" style={{ borderTop: `1px solid ${BD}` }}>
-        <Reveal>
-          <p style={{ fontSize: 11, color: A, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>Selected work</p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: 56 }}>Projects.</h2>
-        </Reveal>
+      <section id="projects" className="relative px-6 md:px-16 py-24" style={{ borderTop: `1px solid ${BD}` }}>
+        <InfiniteGridBackground />
 
-        <div className="grid md:grid-cols-3 gap-5">
-          {projects.map((p, i) => (
-            <Reveal key={p.num} delay={i * 0.1}>
-              <div
-                style={{
-                  background: S, border: `1px solid ${BD}`, borderRadius: 16,
-                  padding: '28px', height: '100%',
-                  transition: 'border-color 0.25s, transform 0.25s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'rgba(245,197,24,0.3)'
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = BD
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }}
-              >
-                <p style={{ fontSize: 36, fontWeight: 700, color: 'rgba(245,197,24,0.12)', lineHeight: 1, marginBottom: 18 }}>{p.num}</p>
-                <h3 style={{ fontSize: 17, fontWeight: 600, marginBottom: 12 }}>{p.title}</h3>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {p.stack.map(s => (
-                    <span key={s} style={{
-                      fontSize: 11, color: M, background: 'rgba(255,255,255,0.04)',
-                      border: `1px solid ${BD}`, borderRadius: 6, padding: '3px 9px',
-                    }}>{s}</span>
-                  ))}
-                </div>
-                <p style={{ fontSize: 13, color: M, lineHeight: 1.7, marginBottom: 22 }}>{p.desc}</p>
-                <a href={p.href} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2"
-                  style={{ fontSize: 12, color: A, textDecoration: 'none', fontWeight: 500, letterSpacing: '0.04em' }}
-                >
-                  View on GitHub <ArrowIcon />
-                </a>
-              </div>
-            </Reveal>
-          ))}
+        <div className="relative" style={{ zIndex: 1 }}>
+          <Reveal>
+            <p style={{ fontSize: 13, color: A, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12 }}>Selected work</p>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: 56 }}>Projects.</h2>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-5 items-stretch">
+            {projects.map((p, i) => (
+              <Reveal key={p.num} delay={i * 0.1} className="h-full">
+                <GlowingShadow>
+                  <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <p style={{ fontSize: 44, fontWeight: 700, color: 'rgba(245,197,24,0.12)', lineHeight: 1, marginBottom: 20 }}>{p.num}</p>
+                    <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 14 }}>{p.title}</h3>
+                    <p style={{ fontSize: 15, color: M, lineHeight: 1.75, marginBottom: 24 }}>{p.desc}</p>
+                    <a href={p.href} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-auto"
+                      style={{ fontSize: 14, color: A, textDecoration: 'none', fontWeight: 500, letterSpacing: '0.04em' }}
+                    >
+                      View on GitHub <ArrowIcon />
+                    </a>
+                  </div>
+                </GlowingShadow>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
           SKILLS
       ═══════════════════════════════════════════════════════════════════ */}
-      <section id="skills" className="px-6 md:px-16 py-24" style={{ borderTop: `1px solid ${BD}` }}>
-        <Reveal>
-          <p style={{ fontSize: 11, color: A, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>Toolbox</p>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: 56 }}>Skills.</h2>
-        </Reveal>
+      <section id="skills" className="py-24" style={{ borderTop: `1px solid ${BD}` }}>
+        <div className="px-6 md:px-16">
+          <Reveal>
+            <p style={{ fontSize: 11, color: A, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>Toolbox</p>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: 40 }}>Skills.</h2>
+          </Reveal>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-5 mb-12">
+        <PerspectiveMarquee />
+
+        <div className="px-6 md:px-16 mt-12">
+        <div className="grid md:grid-cols-3 gap-5 mb-12 items-stretch">
           {skillGroups.map((g, i) => (
-            <Reveal key={g.label} delay={i * 0.07}>
-              <div style={{ background: S, border: `1px solid ${BD}`, borderRadius: 16, padding: '24px' }}>
-                <p style={{ fontSize: 10, color: A, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 14 }}>{g.label}</p>
-                <div className="flex flex-wrap gap-2">
-                  {g.skills.map(sk => (
-                    <span key={sk} style={{
-                      fontSize: 13, color: T, background: 'rgba(255,255,255,0.05)',
-                      border: `1px solid ${BD}`, borderRadius: 8, padding: '5px 12px',
-                    }}>{sk}</span>
-                  ))}
+            <Reveal key={g.label} delay={i * 0.07} className="h-full">
+              <GlowingShadow>
+                <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <p style={{ fontSize: 10, color: A, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 14 }}>{g.label}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {g.skills.map(sk => (
+                      <span key={sk} style={{
+                        fontSize: 13, color: T, background: 'rgba(255,255,255,0.05)',
+                        border: `1px solid ${BD}`, borderRadius: 8, padding: '5px 12px',
+                      }}>{sk}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </GlowingShadow>
             </Reveal>
           ))}
         </div>
 
-        <Reveal delay={0.2}>
-          <p style={{ fontSize: 11, color: M, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 16 }}>Certifications</p>
-          <div className="flex flex-wrap gap-3">
-            {certifications.map(c => (
-              <div key={c} className="flex items-center gap-2.5"
-                style={{ background: S, border: `1px solid ${BD}`, borderRadius: 10, padding: '9px 16px' }}
-              >
-                <div style={{ width: 5, height: 5, borderRadius: '50%', background: A, flexShrink: 0 }} />
-                <span style={{ fontSize: 13, color: T }}>{c}</span>
-              </div>
-            ))}
-          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          CERTIFICATIONS
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section id="certifications" className="px-6 md:px-16 py-24" style={{ borderTop: `1px solid ${BD}` }}>
+        <Reveal>
+          <p style={{ fontSize: 11, color: A, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>Credentials</p>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, lineHeight: 1.15, marginBottom: 56 }}>Certifications.</h2>
         </Reveal>
+
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+          {certifications.map((cert, i) => (
+            <Reveal key={cert.credentialId} delay={i * 0.08}>
+              <TiltCard style={{ borderRadius: 14 }} spotlight={false}>
+                <div style={{
+                  background: '#ffffff',
+                  borderRadius: 14,
+                  border: '1px solid rgba(0,0,0,0.09)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                  aspectRatio: '4 / 3',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  textAlign: 'center',
+                  padding: '20px 16px 18px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}>
+                  {/* Top gold bar */}
+                  <div style={{
+                    position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+                    background: 'linear-gradient(90deg, #b8860b, #d4a017, #f5c518, #d4a017, #b8860b)',
+                    borderRadius: '14px 14px 0 0',
+                  }} />
+
+                  {/* Logo — occupies top half */}
+                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {cert.LogoEl}
+                  </div>
+
+                  {/* Text block — pinned to bottom */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: '100%' }}>
+                    <div style={{ width: 32, height: 1, background: 'rgba(212,160,23,0.35)', marginBottom: 2 }} />
+                    <h3 style={{ fontSize: 12.5, fontWeight: 700, color: '#111827', lineHeight: 1.35, margin: 0, padding: '0 4px' }}>
+                      {cert.title}
+                    </h3>
+                    <p style={{ fontSize: 10.5, color: '#6B7280', fontWeight: 600, margin: 0 }}>{cert.issuer}</p>
+                    <p style={{ fontSize: 9.5, color: '#9CA3AF', margin: 0 }}>
+                      Issued {cert.issued}{cert.expires ? ` · Expires ${cert.expires}` : ''}
+                    </p>
+                    <p style={{ fontSize: 8.5, color: '#C4C9D4', fontFamily: 'monospace', margin: 0, letterSpacing: '0.03em' }}>
+                      {cert.credentialId}
+                    </p>
+                  </div>
+
+                  {/* Bottom gold bar */}
+                  <div style={{
+                    position: 'absolute', bottom: 0, left: 0, right: 0, height: 3,
+                    background: 'linear-gradient(90deg, #b8860b, #d4a017, #f5c518, #d4a017, #b8860b)',
+                    borderRadius: '0 0 14px 14px',
+                  }} />
+                </div>
+              </TiltCard>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
@@ -764,25 +891,27 @@ export default function HomeClient() {
         <div className="flex flex-col gap-5">
           {experience.map((job, i) => (
             <Reveal key={job.company} delay={i * 0.12}>
-              <div
-                className="grid md:grid-cols-[220px_1fr] gap-8 items-start"
-                style={{ background: S, border: `1px solid ${BD}`, borderRadius: 16, padding: '32px 36px' }}
-              >
-                <div>
-                  <p style={{ fontSize: 12, color: A, fontWeight: 500, marginBottom: 10 }}>{job.period}</p>
-                  <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 5 }}>{job.company}</h3>
-                  <p style={{ fontSize: 13, color: M, marginBottom: 3 }}>{job.role}</p>
-                  <p style={{ fontSize: 12, color: '#666e7a', letterSpacing: '0.04em' }}>{job.location}</p>
+              <GlowingShadow>
+                <div
+                  className="grid md:grid-cols-[200px_1fr] gap-8 items-start"
+                  style={{ padding: '32px 36px', height: '100%' }}
+                >
+                  <div>
+                    <p style={{ fontSize: 11, color: A, fontWeight: 500, letterSpacing: '0.04em', marginBottom: 12 }}>{job.period}</p>
+                    <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 6 }}>{job.company}</h3>
+                    <p style={{ fontSize: 13, color: M, marginBottom: 4 }}>{job.role}</p>
+                    <p style={{ fontSize: 11, color: '#4a5060', letterSpacing: '0.04em' }}>{job.location}</p>
+                  </div>
+                  <ul className="flex flex-col gap-4" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    {job.points.map((pt, j) => (
+                      <li key={j} className="flex items-start gap-3">
+                        <div style={{ width: 5, height: 5, borderRadius: '50%', background: A, marginTop: 8, flexShrink: 0 }} />
+                        <p style={{ fontSize: 14, color: M, lineHeight: 1.75 }}>{pt}</p>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="flex flex-col gap-3" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {job.points.map((pt, j) => (
-                    <li key={j} className="flex items-start gap-3">
-                      <div style={{ width: 5, height: 5, borderRadius: '50%', background: A, marginTop: 7, flexShrink: 0 }} />
-                      <p style={{ fontSize: 13, color: M, lineHeight: 1.7 }}>{pt}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              </GlowingShadow>
             </Reveal>
           ))}
         </div>
@@ -832,7 +961,7 @@ export default function HomeClient() {
         </Reveal>
 
         <div className="flex flex-col md:flex-row md:justify-between gap-2" style={{ borderTop: `1px solid ${BD}`, paddingTop: 28 }}>
-          <p style={{ fontSize: 12, color: '#666e7a' }}>© 2025 Muhammad Mahbeer. All rights reserved.</p>
+          <p style={{ fontSize: 12, color: '#666e7a' }}>© 2026 Muhammad Mahbeer. All rights reserved.</p>
           <p style={{ fontSize: 12, color: '#666e7a' }}>DevOps Engineer · Srinagar, India</p>
         </div>
       </section>

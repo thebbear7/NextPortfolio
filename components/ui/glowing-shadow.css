@@ -1,0 +1,63 @@
+/* CSS Houdini registered properties */
+@property --bg-y    { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --bg-x    { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --bg-size { syntax: "<number>"; inherits: true; initial-value: 1; }
+
+/* ── Container ──────────────────────────────────────────────────────────────── */
+.gs-container {
+  --card-color: #111111;
+  --card-radius: 16px;
+  --animation-speed: 5s;
+  --interaction-speed: 0.55s;
+
+  position: relative;
+  border-radius: var(--card-radius);
+  padding: 2px;
+  cursor: pointer;
+  isolation: isolate;
+  height: 100%;
+}
+
+/* Animated gold gradient border */
+.gs-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--card-radius);
+  z-index: -1;
+  background:
+    hsl(0deg 0% 10%)
+    radial-gradient(
+      35% 35% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
+      hsl(45deg 100% 88%) calc(0%  * var(--bg-size)),
+      hsl(43deg 100% 65%) calc(20% * var(--bg-size)),
+      hsl(40deg  90% 45%) calc(40% * var(--bg-size)),
+      transparent 100%
+    );
+  animation: gs-rotate-bg var(--animation-speed) linear infinite;
+  transition: --bg-size var(--interaction-speed) ease;
+}
+
+/* ── Card surface ───────────────────────────────────────────────────────────── */
+.gs-content {
+  position: relative;
+  z-index: 1;
+  background: var(--card-color);
+  border-radius: calc(var(--card-radius) - 2px);
+  height: 100%;
+}
+
+/* ── Hover ──────────────────────────────────────────────────────────────────── */
+.gs-container:hover::before {
+  --bg-size: 15;
+  animation-play-state: paused;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────────── */
+@keyframes gs-rotate-bg {
+  0%   { --bg-x:   0; --bg-y:   0; }
+  25%  { --bg-x: 100; --bg-y:   0; }
+  50%  { --bg-x: 100; --bg-y: 100; }
+  75%  { --bg-x:   0; --bg-y: 100; }
+  100% { --bg-x:   0; --bg-y:   0; }
+}
