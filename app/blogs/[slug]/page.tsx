@@ -3,7 +3,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -12,15 +12,17 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { meta } = getBlogBySlug(params.slug)
+  const { slug } = await params
+  const { meta } = getBlogBySlug(slug)
   return {
     title: `${meta.title} — Mahbeer`,
     description: meta.description,
   }
 }
 
-export default function BlogPost({ params }: Props) {
-  const { meta, content } = getBlogBySlug(params.slug)
+export default async function BlogPost({ params }: Props) {
+  const { slug } = await params
+  const { meta, content } = getBlogBySlug(slug)
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-neutral-300 overflow-y-auto">
